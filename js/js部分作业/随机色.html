@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+<style>
+   *{
+      margin:0;
+      padding:0;
+    }
+    #box{
+      overflow: hidden;
+      border: 1px solid #000;
+     
+    }
+    p{
+      float: left;
+      height: 30px;
+      margin: 2px;
+      padding: 2px;
+      line-height: 30px;
+    }
+</style>
+</head>
+<body>
+    <div id="box">  
+   </div>
+   <script>
+     var box= document.getElementById('box');
+     setInterval(function(){
+      var colorR=Math.floor(Math.random()*256);
+      var colorG=Math.floor(Math.random()*256);
+      var colorB=Math.floor(Math.random()*256);
+      var colorA = Math.random().toFixed(1);
+      var color= "rgba("+colorR+","+colorG+", "+colorB+","+colorA+")";
+      box.innerHTML+="<p style='background:"+ color +";'>"+ color +"</p>"
+     },500)
+     
+   </script>
+</body>
+</html>

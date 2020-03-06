@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="keywords" content="银时,前端,代码">
+		<meta name="description" content="这是描述信息">
+		<title>demo</title>
+		<style>
+			body,p,ul,dl,dd,ol,h1,h2,h3,h4,h5,h6{margin: 0;font-size: 16px;font-weight: normal;}
+			ul,ol{padding: 0;list-style: none;}
+			input{
+				margin: 0;
+				padding: 0;
+			}
+			body{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				background: linear-gradient(#e241de 50%,#55dadd 50%);
+			}
+			.nav{
+				position: relative;
+				display: flex;
+				/* width: 500px; */
+				height: 100px;
+				background-color: #fff;
+				border-radius: 5px;
+			}
+			.list{
+				display: flex;
+				width: 400px;
+				height: 100px;
+				transition: 1s;
+				overflow: hidden;
+			}
+			.list li{
+				flex: none;
+				width: 100px;
+				height: 100px;
+				line-height: 100px;
+				text-align: center;
+			}
+			.btn{
+				position: relative;
+				width: 100px;
+				height: 100px;
+			}
+			.btn:before,.btn:after{
+				content:"";
+				position: absolute;
+				top: 45px;
+				left: 25px;
+				width: 50px;
+				height: 5px;
+				background-color: #000;
+				transform: rotate(45deg);
+				transition-duration: 1s;
+			}
+			.btn:after{
+				transform: rotate(-45deg);
+			}
+			.nav>input{
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 100px;
+				height: 100px;
+				z-index: 1;
+				opacity: 0;
+			}
+
+			.nav>input:checked~.btn:before{
+				transform: rotate(360deg) translateY(-10px);
+			}
+			.nav>input:checked~.btn:after{
+				transform: rotate(-360deg) translateY(10px);
+			}
+
+			.nav>input:checked+.list{
+				width: 0;
+				color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="nav">
+			<input type="checkbox">
+			<ul class="list">
+				<li>Nice</li>
+				<li>To</li>
+				<li>Meet</li>
+				<li>You</li>
+			</ul>
+			<div class="btn"></div>
+			<!--
+				打开关闭的开关: 
+					input type="checkbox"
+			-->
+		</nav>
+	</body>
+</html>

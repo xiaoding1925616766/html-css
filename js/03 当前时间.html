@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    
+        #box{
+			width: 500px;
+			height: 100px;
+			margin:50px auto;
+			border:1px solid;
+		}
+		p{
+			font-size: 20px;
+		}
+    
+    </style>
+</head>
+<body>
+
+
+    <div id="box">
+        现在的时间为：
+        <div id="p1"></div>
+    </div>
+
+
+
+
+    <script>
+    
+        var box = document.getElementById('box');
+        var p = document.getElementById('p1');
+        var arr = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+
+        function fn(){
+            // n++
+            // p.innerHTML  = n++
+            // console.log( n )
+            var date = new Date();
+            var YY = date.getFullYear();   //返回年
+            var MM = date.getMonth()+1;   // 0 - 11   
+            var DD = date.getDate();//返回某天
+            var week = date.getDay();   //注意：星期日返回的值是0；
+            var hh = date.getHours();
+            var mm = date.getMinutes()
+            var ss = date.getSeconds();
+            var str = YY+'年'+MM+'月'+DD+'日 '+ arr[week] +' '+ hh + '时'+mm+'分'+ss+'秒'
+            // console.log( str )
+            p.innerHTML = str;
+
+        }
+    
+        // 0 1 2 3 4 5 6 
+
+
+        fn()
+        setInterval( fn ,1000 )
+    
+        function addZero( n ){
+            return n < 10 ? "0" + n : n + ""
+        }
+        //0 1 2 3 4 5 6 7 8 9 
+
+    
+    </script>
+    
+</body>
+</html>

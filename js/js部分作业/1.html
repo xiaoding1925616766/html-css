@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+   
+  </style>
+</head>
+<body>
+  <script>
+    var date = new Date(  );//获取到的本地（计算机）的时间，不是北京时间;
+    //GMT 世界时间  格林尼治
+    console.log( date );//返回年;  
+    var YY = date.getFullYear();  //返回月份             
+       console.log( YY );  //月份是从0开始，0-11;
+    var MM = date.getMonth();
+        console.log( MM);
+    var GG = date.getDay();
+        console.log(GG);
+    var QQ = date.getHours();
+        console.log(QQ);
+    var WW = date.getMinutes();
+        console.log(WW)
+    var SS = date.getSeconds();
+    console.log(SS);
+    var ms=date.getMilliseconds();
+    console.log(ms);
+    var time=date.getTime();
+    console.log(time);
+    var date = new Date;
+    setTimeout(function(){
+      console.log(new Date()-date);
+    },1000);
+    console.log(Date.now());
+  </script>
+</body>
+</html>

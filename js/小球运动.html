@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title小球运动</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #cccccc;
+        }
+
+        #box {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            background-color: #f90;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+    <script>
+        var box = document.getElementById('box'),
+            speedX = 10,
+            speedY = 10,
+            maxX=document.documentElement.clientWidth - box.offsetWidth,
+            maxY=document.documentElement.clientHeight - box.offsetHeight,
+            startLeft=box.offsetLeft,
+            startTop=box.offsetTop;
+            window.onresize=function(){
+                maxX=document.documentElement.clientWidth - box[0].offsetWidth;
+                maxY=document.documentElement.clientHeight - box[0].offsetHeight;
+            }
+            run()
+            function run(){
+                startTop+=speedY;
+                startLeft+=speedX;
+                if(startLeft<=0 || startLeft>=maxX){
+                   speedX=-speedX;
+                    if(startLeft<=0){
+                        startLeft=0;
+                    }
+                    if(startLeft>=maxX){
+                        startLeft=maxX;
+                    }
+                }
+                if(startTop<=0 || startTop>=maxY){
+                    speedY=-speedY;
+                    if(startTop<=0){
+                        startTop=0;
+                    }
+                    if(startTop>=maxY){
+                        startTop=maxY;
+                    }
+                }
+                box.style.left=startLeft+'px';
+                box.style.top=startTop+'px';
+                 requestAnimationFrame(run)
+            }
+           
+
+
+
+    </script>
+</body>
+
+</html>

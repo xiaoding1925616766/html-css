@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{margin:0;padding:0;}
+    
+    body{
+        background: #ddd;
+    }
+    #box{
+        position: relative;
+        width: 500px;
+        height: 500px;
+        margin:50px auto;
+        border:1px solid;
+    }
+    #box>div{
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background-color:#90f;
+    }
+</style>
+</head>
+<body>
+    <div id="box"></div>
+    <script src="js/animation.js"></script>
+    <script>
+      var box=document.getElementById('box');
+      var arr=[];
+      for(var i=0;i<100;i++){
+        arr.push(i);
+      }
+      arr.sort(function(){
+        return (Math.random()-0.5);
+      })
+      console.log(arr)
+      var j=0;
+      fn()
+      function fn(){
+        var value=arr[j];
+        if(typeof value!=='undefined'){
+          console.log(value)
+            var top=parseInt(value/10)*50;
+            var left=(value%10)*50;
+            var div=document.createElement('div');
+            console.log(div)
+            div.style.cssText=`background:url('img/n.png') -${left}px -${top}px`
+            box.appendChild(div)
+
+            animation(div,{
+              data:{
+                left:left,
+                top:top
+              }
+            },100,function(){
+              j++
+              fn()
+            })
+          }
+        }
+            
+    </script>
+
+</body>
+</html>

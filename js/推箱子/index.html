@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  body{
+    overflow: hidden;
+  }
+  #wrap{
+    position: relative;
+    /* width: 560px;
+    height: 560px; */ 
+    /* border: 1px solid #000; */
+    margin: auto;
+    background-image: url('./img/block.gif');
+  }
+  #wrap div{
+    position:absolute;
+    width:35px;
+    height: 35px;
+  }
+  #wrap div img{
+    position: absolute;
+    bottom: 0;
+  }
+  #wrap div.ball img{
+    left: 50%;
+    top: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+  }
+  #wrap div.person img{
+    left: 50%;
+    margin-left: -25px;
+  }
+  #btn{
+    margin-top:50px;
+    position: relative;
+    left: 45%;
+    cursor: pointer;
+  }
+  </style>
+</head>
+<body>
+  <div id="btn">
+    <input type="button" id='prev' value='上一步'>
+    <input type="button" id="prevlevel" value='上一关'>
+    <input type="button" id="nextlevel" value='下一关'>
+  </div>
+  <div id="wrap">
+    
+  </div>
+  
+
+
+  <script>
+  /*设计模式：
+      单例模式
+
+  */
+  window.onload=function(){
+    Game.exe();
+  }
+  let Game={
+    oWrap:document.getElementById('wrap'),
+    //exe就是实现各种样的功能，点击，走动
+      exe:function(){
+        var This=this;
+        this.createMap(this.level)
+        document.getElementById('prev').onclick=this.prev;
+        document.getElementById('nextlevel').onclick=function(){
+          if(This.level<This.mapDate.length){
+            This.level++;//直接进入下一关
+            
+          }
+          This.createMap(This.level)
+        }
+        document.getElementById('prevlevel').onclick=function(){
+          if(This.level>0){
+            This.level--;//直接进入上一关
+             This.createMap(This.level)
+          }else{
+            alert('玩个毛线！！！')
+          }
+         
+        }
+      },
+      //关卡
+      level:0,
+      //this.size
+      size:{x:16,y:16},
+      //已经走了第几步了
+      stepNum:0,
+    createMap:function(lv){
+      this.oWrap.innerHTML='';
+      this.step.person=[];
+      this.step.box=[];
+      this.stepNum=0;
+      this.oWrap.style.cssText=`width:${this.size.x*35}px;height:${this.size.y*35}px;`
+      var oDiv,oImg,oPerson;
+      for(var i=0;i<this.size.x*this.size.y;i++){
+          switch(this.mapDate[lv][i]){
+            case 1:
+            //1:树林
+            //二位坐标(x,y)
+            appDiv.call(this,i);
+            oImg.src='img/wall.png'
+            oDiv.className='wall'
+              break;
+            case 2:
+            //2:箱子
+            appDiv.call(this,i);
+            oImg.src='img/box.png'
+            oDiv.className='box';
+              break;
+            case 3:
+            //蛋（坑）
+            appDiv.call(this,i);
+            oImg.src='img/ball.png'
+            oDiv.className='ball'
+            oDiv.style.zIndex=0;
+              break;
+            case 4:
+            //人
+            appDiv.call(this,i);
+            oImg.src='img/down.png'
+            oDiv.className='person'
+            oPerson=oImg;
+              break;
+          }
+        }
+        function appDiv(i){
+          var x=i%this.size.x;
+            var y=parseInt(i/this.size.y);
+            oDiv=document.createElement('div');
+            oImg=new Image();
+            //保存x,y坐标
+            oDiv.x=x;
+            oDiv.y=y;
+            oDiv.style.cssText=`left:${x*35}px;top:${y*35}px;z-index:${y*this.size.y}`
+            oDiv.appendChild(oImg)
+            this.oWrap.appendChild(oDiv)
+
+        }
+         //传入人物现在的朝向
+          this.controlPerson(oPerson)
+    },
+    
+        //控制人的动作
+            controlPerson:function(oP){
+              // console.log(op.parentNode)
+              var oParent=oP.parentNode;
+              var This=this;
+              document.onkeydown=function(ev){
+              ev=ev||window.event;
+               var keyCode=ev.keyCode;
+               This.step.person[This.stepNum]={}
+               This.step.person[This.stepNum].src=oParent.children[0].src;
+              //  console.log(This.step.person[This.stepNum])
+                switch(keyCode){
+                    case 37://左
+                      oP.src='img/left.png'
+                      This.movePerson({x:-1},oParent);
+                      //oParent.style.left=oParent.offsetLeft-35+'px';
+                      return false;//阻止事件
+                      break;
+                    case 38://上
+                    oP.src='img/up.png'
+                    This.movePerson({y:-1},oParent);
+                    //oParent.style.top=oParent.offsetTop-35+'px';
+                    This.step.person[This.stepNum]={}
+                    return false;//阻止事件
+                      break;
+                    case 39://右
+                    oP.src='img/right.png'
+                    This.movePerson({x:1},oParent);
+                    //oParent.style.left=oParent.offsetLeft+35+'px';
+                    return false;//阻止事件
+                      break;
+                    case 40://下
+                    oP.src='img/down.png'
+                    This.movePerson({y:1},oParent);
+                    //oParent.style.top=oParent.offsetTop+35+'px';
+                    return false;//阻止事件
+                      break;
+                  }
+
+      }
+    },
+   
+    //人物移动
+    movePerson:function(mJson,oParent){
+      //console.log(mJson,oParent);
+      // console.log(oParent.x,oParent.y);
+      var x=mJson.x||0;//取不到值，直接强制等于0；
+      var y=mJson.y||0;//取不到值，直接强制等于0；
+      var oBox = this.getClass('box',this.oWrap)//子集类，子集类的直接父级
+      // console.log( oBox )
+      //改变index;
+      //数组转下标：oParent.x+oParent.y*this.size.y
+      //x,y分别代表猴子的小标
+      if(this.mapDate[this.level][(oParent.x+x)+(oParent.y+y)*this.size.y]!=1){
+        this.step.person[this.stepNum].x=oParent.x;
+        this.step.person[this.stepNum].y=oParent.y;
+        oParent.x+=x;
+        oParent.y+=y;
+        // console.log(oParent.x,oParent.y)
+        oParent.style.left=oParent.x*35+'px';
+        oParent.style.top=oParent.y*35+'px';
+        //上面的想x,y分别发生改变的时候，记录下一个值
+        this.stepNum++;
+        oParent.style.zIndex = oParent.x + oParent.y*this.size.y;
+        for( var i = 0 ;i<oBox.length;i++ ){
+          //判断猴子的坐标是否与箱子的坐标相等;
+          if( oBox[i].x == oParent.x && oBox[i].y == oParent.y){
+            // console.log( '猴子的坐标与箱子坐标相等' )
+            
+            //如果箱子与树重叠的情况：
+            if(this.mapDate[this.level][(oBox[i].x+x)+(oBox[i].y+y)*this.size.y]!=1){
+              // console.log(1)
+            
+              //判断箱子与箱子之间，是否相邻
+              if(this.collision(oBox[i],x,y)){//最终这个函数会返回布尔值，判断两个箱子是否相等
+              //箱子没有重叠的情况，箱子还可以移动
+              this.step.box[this.stepNum-1]={}
+              //自定义保存对应的箱子
+              this.step.box[this.stepNum-1].index=i;
+              //绑定对应的箱子，对应的x,y
+              this.step.box[this.stepNum-1].x=oBox[i].x;
+              this.step.box[this.stepNum-1].y=oBox[i].y;
+                oBox[i].x += x;
+                oBox[i].y += y;
+                oBox[i].style.left = oBox[i].x*35 + 'px';
+                oBox[i].style.top = oBox[i].y*35 + 'px';
+                oBox[i].style.zIndex = oBox[i].y*this.size.y;
+                this.pass();
+              }else{
+                oParent.x-=x;
+                oParent.y-=y;
+                oParent.style.left=oParent.x*35+'px';
+                oParent.style.top=oParent.y*35+'px';
+                oParent.style.zIndex=oParent.x+oParent.y*this.size.y;
+                //箱子与箱子碰撞的时候，人弹回来
+                this.stepNum--;
+                this.step.person.pop()
+              }
+            }else{
+              // console.log(2)
+              oParent.x-=x;
+              oParent.y-=y;
+              oParent.style.left=oParent.x*35+'px';
+              oParent.style.top=oParent.y*35+'px';
+              oParent.style.zIndex=oParent.x+oParent.y*this.size.y;
+                //箱子与树碰撞的时候，人弹回来
+                this.stepNum--;
+                this.step.person.pop()//最后一个数据切除掉
+            }
+          }
+        }
+          // console.log(this.step.person)
+      }
+    },
+    //箱子与箱子之间碰撞函数
+    collision:function(obj,x,y){
+     
+
+      var oBox=this.getClass('box',this.oWrap);
+      for(var i=0;i<oBox.length;i++){
+        if(oBox[i].x === obj.x+x && oBox[i].y === obj.y+y){
+          //最终返回一个布尔值 已经进行箱子有重叠
+          return false;
+        }
+      }
+      //遍历完之后，还没有发现箱子与箱子之后有重叠
+      return true;
+    },
+    //记录猴子的行走路径
+    step:{
+      person:[
+          // { x:1, y:1},
+          // { x:,y:},
+          // { x:, y},
+      ],
+      box:[]
+    },
+    //人物自动返回到上一步的走动
+    prev:function(){
+      var This=Game;
+      //只有2一个猴子，因为是拿到的值是类数组，所以说需要加下标
+      var oPerson=This.getClass('person',This.oWrap)[0];
+      var oBox=This.getClass('box',This.oWrap);
+      var oBoxNow;
+      if(This.stepNum!=0){
+        oPerson.x = This.step.person[This.stepNum-1].x;
+        //为什么-1？因为数组下标从零开始
+        oPerson.y = This.step.person[This.stepNum - 1].y; 
+        oPerson.style.left=oPerson.x*35+'px';
+        oPerson.style.top=oPerson.y*35+'px';
+        //调用对应的路径 
+        oPerson.children[0].src=This.step.person[This.stepNum - 1].src;
+        //已经退回上一步。step的步数也需要随着改变
+        //判断箱子与人是否发生碰撞
+        if(This.step.box[This.stepNum-1]){
+          //那个盒子发生碰撞的时候，对应值发生变化
+          oBoxNow=oBox[This.step.box[This.stepNum-1].index];
+          oBoxNow.x=This.step.box[This.stepNum-1].x;
+          oBoxNow.y=This.step.box[This.stepNum-1].y;
+          oBoxNow.style.top=oBoxNow.y*35+'px';
+          oBoxNow.style.left=oBoxNow.x*35+'px';
+        }
+
+        This.stepNum--;
+      }
+     
+     
+    },
+    //封装获取方法
+     getClass:function(cName, obj){
+      //  console.log(1)
+        obj=obj||document;//如果有直接父级的话，直接拿到父级，如果没有直接父级赋值doucument;
+        if(obj.getElementsByClassName){
+        return obj.getElementsByClassName(cName)
+        // div.getElementByClassName('box')
+      }
+      },
+      pass:function(){
+        var oBall=this.getClass('ball',this.oWrap);
+        var oBox=this.getClass('box',this.oWrap);
+        var passNum=0;//两者重叠的个数
+        //外层作为蛋的个数
+        for(var i=0;i<oBall.length;i++){
+          // 里层作为箱子个数
+          for(var j=0;j<oBox.length;j++){
+            //蛋蛋与箱子的x坐标和y的坐标相等
+            if(oBall[i].x==oBox[j].x&&oBall[i].y==oBox[j].y){
+              passNum++
+            }
+          }
+          if(passNum==oBall.length){
+           alert('pass')
+            this.level++;
+            this.createMap(this.level)
+          }
+        }
+      },
+    //放地图的关卡
+     mapDate:[
+       /* 
+        0:地板
+        1:树林
+        2:箱子
+        3:蛋（坑）
+        4：人
+       */
+       [
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,1,3,1,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,1,0,1,1,1,1,0,0,0,0,
+         0,0,0,0,1,1,1,2,0,2,3,1,0,0,0,0,
+         0,0,0,0,1,3,0,2,4,1,1,1,0,0,0,0,
+         0,0,0,0,1,1,1,1,2,1,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,1,3,1,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+       ],
+      [
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,
+        0,0,0,0,1,4,0,0,1,0,0,0,0,0,0,0,
+        0,0,0,0,1,0,2,2,1,0,1,1,1,0,0,0,
+        0,0,0,0,1,0,2,0,1,0,1,3,1,0,0,0,
+        0,0,0,0,1,1,1,0,1,1,1,3,1,0,0,0,
+        0,0,0,0,0,1,1,0,0,0,0,3,1,0,0,0,
+        0,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,
+        0,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,
+        0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+      ],
+      [
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,
+        0,0,0,0,0,1,0,0,0,1,3,0,1,0,0,0,
+        0,0,0,0,1,1,0,0,0,0,3,3,1,0,0,0,
+        0,0,0,0,1,0,0,2,0,1,5,3,1,0,0,0,
+        0,0,0,1,1,0,1,1,2,1,0,1,1,0,0,0,
+        0,0,0,1,0,0,0,2,0,0,2,0,1,0,0,0,
+        0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,
+        0,0,0,1,1,1,1,1,1,1,4,0,1,0,0,0,
+        0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    ],
+    [
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,
+        0,0,0,0,1,1,1,1,1,1,4,1,1,0,0,0,
+        0,0,0,0,1,3,3,3,3,1,2,0,1,1,0,0,
+        0,0,0,0,1,3,3,3,3,1,0,2,0,1,0,0,
+        0,0,0,0,1,3,3,3,3,0,2,0,0,1,0,0,
+        0,0,0,0,1,0,3,3,3,1,0,0,0,1,0,0,
+        1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,0,
+        1,0,2,0,2,0,0,0,2,0,0,1,0,0,1,0,
+        1,0,0,0,0,2,2,0,0,0,2,0,2,0,1,0,
+        1,1,1,0,2,0,2,0,2,0,0,1,1,1,1,0,
+        0,0,1,1,0,0,0,2,0,2,0,1,0,0,0,0,
+        0,0,0,1,0,0,1,1,1,1,1,1,0,0,0,0,
+        0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    ]
+
+     ]
+  };
+  
+  
+  </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    
+        .tab{
+			width: 400px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+            margin:50px auto;
+		}
+		.tab-head{
+			font-size: 0;
+			border-bottom: 1px solid #ccc;
+		}
+		.tab-head span{
+			display: inline-block;
+            width:25%;
+            height:40px;
+			font-size: 16px;
+            text-align:center;
+            line-height:40px;
+		}
+		/* .tab-head span:hover, */
+		.tab-head span.on{
+			background: #121212;
+			color: #fff;
+			cursor: pointer;
+		}
+		.body{
+			height: 250px;
+		}
+		.body div{
+			display: none;
+			height: 100%;
+			overflow: hidden;
+		}
+		.body div.on{
+			display: block;
+		}
+    
+    </style>
+</head>
+<body>
+
+    <div class="tab">
+            <div class="tab-head">
+                <span class='on'>图片1</span>
+                <span>图片2</span>
+                <span>图片3</span>
+                <span>图片4</span>
+            </div>
+            <div class="body">
+                <div class='on'><img src='images/1.jpg' width='100%' height='100%'/></div>
+                <div><img src='images/2.jpg' width='100%' height='100%'/></div>
+                <div><img src='images/3.jpg' width='100%' height='100%'/></div>
+                <div><img src='images/4.jpg' width='100%' height='100%'/></div>
+            </div>
+    </div>
+    
+
+
+    <script>
+    
+        var title = document.getElementsByTagName('span')
+        var pic = document.querySelectorAll('.body div')
+        var index = 0;
+        
+        for( var i =0,len = pic.length;i<len;i++ ){
+
+            (function(i){
+
+                title[i].onmouseenter = function(){
+                    title[index].className = ''   //title[0]
+                    pic[index].className = ''      //pic[0]
+                    index = i;   //把新的移入目标的下标；  //0 1 2 3 
+                    title[index].className = 'on'   //title[3]
+                    pic[index].className = 'on'     //pic[3]
+                }
+
+            })(i)
+
+        }
+
+
+
+    
+    
+    </script>
+
+
+
+</body>
+</html>

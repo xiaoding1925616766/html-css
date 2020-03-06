@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    
+        #p2{
+			margin:100px auto;
+			text-align: center;
+			font-size: 20px;
+			font-weight: bold;
+		}
+    
+    
+    </style>
+</head>
+<body>
+
+        <p id="p2">
+            距离过年还有：
+            <span id="sp"></span>
+        </p>
+
+
+    <script>
+    
+        var newYear = new Date( '2020/1/24' );
+        var sp = document.getElementById('sp')
+        console.log( newYear )
+
+        function fn(){
+            var date = newYear - Date.now();
+            console.log( date )
+            var DD = Math.floor(date/1000/60/60/24);
+            var hh = Math.floor(date/1000/60/60)%24;
+            var mm = Math.floor(date/1000/60)%60
+            var ss = Math.floor(date/1000)%60
+            // console.log( ss )
+            var str = DD+'日 ' + addZero(hh) + '时'+addZero(mm)+'分'+ addZero(ss)+'秒'
+            sp.innerHTML = str
+        }
+        fn()
+        setInterval( fn , 1000 );
+
+        function addZero( n ){
+            return n < 10 ? "0" + n : n + ""
+        }
+
+
+    
+    </script>
+    
+</body>
+</html>

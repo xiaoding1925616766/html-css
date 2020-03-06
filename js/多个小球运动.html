@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #cccccc;
+        }
+
+        .box {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            background-color: #f90;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+        <div id="box"></div>
+    <script>
+        var speed;
+        run(100)
+        function run(num){
+            for(var i=0;i<num;i++){
+                var div=document.createElement('div');
+                div.className='box'
+                div.speedX=Math.floor(Math.random()*20+1);
+                div.speedY=Math.floor(Math.random()*20+1);
+                // div.innerHTML=i;
+                document.body.appendChild(div)
+            }
+            var box=document.getElementsByClassName('box');
+            maxX=document.documentElement.clientWidth - box[0].offsetWidth;
+            maxY=document.documentElement.clientHeight - box[0].offsetHeight;
+        // console.log(box)
+        window.onresize=function(){
+            maxX=document.documentElement.clientWidth - box[0].offsetWidth;
+            maxY=document.documentElement.clientHeight - box[0].offsetHeight;
+        }
+        play()
+        function play(){
+            for(var i=0;i<num;i++){
+                var ball=box[i];
+                var startTop=ball.offsetTop;
+                var startLeft=ball.offsetLeft;
+                Top=startTop+ball.speedY;
+                Left=startLeft+ball.speedX;
+                if(Top<=0||Top>=maxY){
+                    ball.speedY=-ball.speedY;
+                    Top=Math.max(0,Top)
+                    Top=Math.min(Top,maxY)
+                    ball.style.backgroundColor=rgb();
+                }
+                if(Left<=0||Left>=maxX){
+                    ball.speedX=-ball.speedX;
+                    Left=Math.max(0,Left)
+                    Left=Math.min(Left,maxX)
+                }
+                ball.style.left=Left+'px';
+                ball.style.top=Top+'px';
+            }
+             requestAnimationFrame(play)
+        }
+    }
+        function rgb(){
+            return `rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`
+    }
+    </script>
+</body>
+</html>

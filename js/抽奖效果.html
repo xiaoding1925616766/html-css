@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .title{
+            font-size: 24px;
+            font-weight: bold;
+            width: 400px;
+            height: 70px;
+            margin: 0 auto;
+            padding-top: 30px;
+            text-align: center;
+            color: #f00;
+        }
+        .btns{
+            width: 190px;
+            height: 30px;
+            margin: 0 auto;
+        }
+        .btns input{
+            font-family: "微软雅黑";
+            font-size: 14px;
+            line-height: 27px;
+            display: block;
+            float: left;
+            width: 80px;
+            height: 27px;
+            margin-right: 10px;
+            cursor: pointer;
+            text-align: center;
+            color: #fff;
+            border: 1px solid #eee;
+            border-radius: 7px;
+            background: #036;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">开始抽奖啦！</div>
+    <div class="btns">
+        <input type="button" value="开始" class="play">
+        <input type="button" value="停止" class="stop">
+    </div>
+    <script>
+        var data=['Phone7',  '谢谢参与','Ipad', '谢谢参与','三星笔记本', '佳能相机', '惠普打印机', '谢谢参与', '100元充值卡', '谢谢参与', '1000元超市购物券'];
+        var timer=null;
+        var flag=0;
+        var play=document.getElementsByClassName('play')[0];
+        var stop=document.getElementsByClassName('stop')[0];
+        var title=document.getElementsByClassName('title')[0];
+        window.onload=function(){
+            play.onclick=playFun;
+            stop.onclick=stopFun;
+            document.onkeyup=function(event){
+                event=event||window.event;
+                if(event.keyCode==13){
+                    if(flag==0){
+                        playFun();
+                        flag=1;
+                    }else{
+                        stopFun();
+                        flag=0;
+                    }
+                }
+            }
+        }
+        function playFun(){
+            clearInterval(timer);
+            timer=setInterval(function(){
+                var random=Math.floor(Math.random()*data.length);
+                title.innerHTML=data[random];
+            },50);
+            play.style.background='#999'
+        }
+        function stopFun(){
+            clearInterval(timer);
+            play.style.background='#036';
+        }
+    </script>
+</body>
+</html>

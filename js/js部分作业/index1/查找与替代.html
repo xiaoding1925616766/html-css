@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    
+    #box{
+            width:500px;
+            height: 200px;
+            margin:50px auto;
+            padding:10px;
+            border:2px solid pink;
+        }
+        span{
+            color:#f60;
+            font-size:18px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+        <div id="box">
+            <input type="text" placeholder="匹配项">
+            <input type="text" placeholder="替换项">
+            <button>查找</button>
+            <button>替换</button>
+            <p>凯迪，出生于吉林长春，毕业于重庆大学美视电影学院表演系，中国内地女演员。
+                2008年凯迪参演家庭轻喜剧《把日子过好》；2010年参演法院题材剧《防线》；2011年出演悬疑电影《密室之不可靠岸》；2014年参演爱情喜剧电影《撒娇女人最好命》；2016年参演剧情悬疑电影《记忆大师》 [1]  ；2017年出演悬疑推理剧《白夜追凶》，同年参演爱情奇幻剧《结爱·千岁大人的初恋》。</p>
+        </div>
+
+        <script>
+            var inps = document.getElementsByTagName('input');
+            var btns = document.getElementsByTagName('button');
+            var pText = document.getElementsByTagName('p')[0];
+            pTextInner = pText.innerHTML;//保存初始值
+            btns[0].onclick = function(){
+                var  val = inps[0].value.trim();
+                //处理字符串前面的空格，注意：trim只允许处理前面的空格符。
+                if(val){
+                    pText.innerHTML = pTextInner.split(val).join('<span>' +val+'</span>')
+                }
+                
+            }
+            btns[1].onclick = function(){
+                var  val = inps[0].value.trim();
+                var  val1 = inps[1].value.trim();
+                if(val && val1){
+                     //切割的时候，进行赋值赋值成为新的字符
+                    pText.innerHTML = pTextInner.split(val).join('<span>' +val1+'</span>')
+                    //把已经完成的操作，来当作下一次使用的模板
+                    pTextInner=pTextInner.split(val).join(val1);
+                    inps[0].value = '';
+                    inps[1].value = '';
+                }else{
+                    alert("你给我输入值呀！")
+                }
+                   
+            }
+        </script>
+
+</body>
+</html>

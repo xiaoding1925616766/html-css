@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    
+        *{
+            margin:0;
+            padding:0;
+        }
+        #wrap{
+            width:400px;
+            margin:50px auto 0;
+            user-select: none;
+        }
+        ul li{
+            list-style:None;
+            border:1px dashed #000;
+            padding:20px;
+            cursor:pointer;
+        }
+        ul li span{
+            float:left;
+            width:20px;
+            height:20px;
+            background-image:url( 'images/ck.png' );
+            margin-right:10px;
+            margin-top:2px;
+        }
+        ul li span.active{
+            background-image:url( 'images/cked.jpg' );
+        }
+        button{
+            width: 50px;
+            height:30px;
+        }
+        button.active{
+            background-color: #90f;
+        }
+    
+    </style>
+</head>
+<body>
+        <div id="wrap">
+
+            <ul>
+                <li><span></span>option1</li>
+                <li><span></span>option2</li>
+                <li><span></span>option3</li>
+                <li><span></span>option4</li>
+                <li><span></span>option5</li>
+                <li><span></span>option6</li>
+                <li><span></span>option7</li>
+            </ul>    
+            <div class="box">
+    
+                <button>全选</button>
+                <button class='active'>全不选</button>
+                <button>反选</button>
+        
+        </div>
+        <script>
+            var lis = document.getElementsByTagName('li');
+            var btns = document.getElementsByTagName('button');
+            var Spans = document.getElementsByTagName('span');
+            var count = 0;
+            var len = Spans.length;
+            for(var i=0;i<len;i++){
+                Spans[i].kaiguan=false;
+                Spans[i].i=i;
+                Spans[i].onclick = function(){
+                    if(this.kaiguan){
+                        Spans[this.i].className=''
+                        count--;
+                    }else{
+                       Spans[this.i].className='active'
+                       count++;
+                    }
+                    this.kaiguan = !this.kaiguan;
+                    // console.log( count )
+                    if(count === len){
+                        btns[0].className='active'
+                        btns[1].className=''   
+                    }else if(count === 0){
+                        btns[0].className=''
+                        btns[1].className='active'
+                    }else{
+                        btns[0].className=''
+                        btns[1].className='' 
+                    }
+                  
+                }
+
+            }
+                btns[0].onclick = function(){
+                    this.className='active'
+                    btns[1].className=''
+                    count=len;
+                    for( var i = 0; i<len;i++){
+                        Spans[i].className='active'
+                        Spans[i].kaiguan=true
+                    }
+                }
+                btns[1].onclick = function(){
+                    for(var i=0;i<len;i++){
+                        count=0;
+                        this.className='active'
+                        btns[0].className=''
+                        Spans[i].className=''
+                        Spans[i].kaiguan=false
+                    }
+                    
+                }
+                btns[2].onclick = function(){
+                    for(var i=0;i<len;i++){
+            
+                        if(Spans[i].kaiguan){
+                            Spans[i].className=''
+                            count--;
+                        }else{
+                            Spans[i].className='active'
+                            count++;
+                        }
+                        Spans[i].kaiguan = !Spans[i].kaiguan;
+                    }
+                    if(count === len){
+                        btns[0].className='active'
+                        btns[1].className=''   
+                    }else if(count === 0){
+                        btns[0].className=''
+                        btns[1].className='active'
+                    }else{
+                        btns[0].className=''
+                        btns[1].className='' 
+                    }
+                }
+        
+        </script>
+       
+
+</body>
+</html>

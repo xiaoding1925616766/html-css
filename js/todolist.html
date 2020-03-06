@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    
+        *{margin: 0;padding: 0;}
+            html,body{width: 100%;}
+            #wrap{
+                width: 250px;
+                /*height: 150px;*/
+                margin:50px auto;
+            }
+            div{
+                width: 250px;
+                margin-bottom:5px; 
+                line-height: 50px;
+                text-align: center;
+                cursor: pointer;
+            }
+            p{
+                width: 100%;
+                height: 50px;
+                border: 1px solid black;
+                background-color:deeppink;
+            }
+            ul.list{
+                display: none;
+                width: 100%;
+                list-style: none;
+            }
+            li{
+                width: 100%;
+                background-color: #f9f;
+                cursor: pointer;
+                margin-top:2px;
+    
+            }
+            li:hover{
+                background-color: purple;
+            }
+        
+        </style>
+</head>
+<body>
+    <div id="wrap">
+        <div>
+            <p>地区</p>
+            <ul class="list" style='display:block;'>
+                <li>上海</li>
+                <li>北京</li>
+                <li>天津</li>
+                <li>广州</li>
+                <li>深圳</li>
+            </ul>
+        </div>
+        <div>
+            <p>好友</p>
+            <ul class="list">
+                <li>凯迪老师</li>
+                <li>青龙老师</li>
+                <li>银时老师</li>
+            </ul>
+        </div>
+        <div>
+            <p>爱好</p>
+            <ul class="list">
+                <li>吃饭</li>
+                <li>睡觉</li>
+                <li>看电视</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+      var title =document.getElementsByTagName('p');
+      var list =document.getElementsByClassName('list');
+    //   title[0].onclick=function(){
+    //       alert('123')
+    //   }
+      for(var i=0;i < title.length;i++){
+        title[i].mark=false;
+        title[0].mark=true;
+        title[i].i=i;
+        title[i].onclick = function(){
+            // alert(1)
+          if(this.mark){
+            list[this.i].style.display='none';
+            this.mark=false;
+          }else{
+            for(var j=0; j<list.length;j++){
+              list[j].style.display='none';
+              title[j].mark=false;
+            }
+            list[this.i].style.display='block'
+            this.mark=true;
+          }
+        }
+      }
+    </script>
+</body>
+</html>

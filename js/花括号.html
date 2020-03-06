@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #box{
+      position: relative;
+      width: 150px;
+      height: 250px;
+      border: 2px solid black;
+      margin:100px auto 0;
+    }
+    #box>div{
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color:pink;
+      text-align: center;
+      line-height: 50px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="box">
+    <div></div>
+  </div>
+  <script>
+    var box = document.getElementById('box')
+  
+    var num = 5;
+    var mid = (num-1)/2;
+    var str=''
+    for(i=0;i<num;i++){
+      if(i<=mid){
+        str+="<div style='top:"+i*50+"px;left:"+i*50+"px;'>"+i+"</div>"
+      }else{
+        str+="<div style='top:"+i*50+"px;left:"+(num-i-1)*50+"px;'>"+i+"</div>"
+      }
+      
+    }
+    box.innerHTML=str;
+  </script>
+</body>
+</html>
